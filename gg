@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Create a dot file for the diagram
+cat <<EOF > hypervisor_comparison.dot
+digraph HypervisorComparison {
+    rankdir=TB;
+    node [shape=rectangle, style=filled, fillcolor=lightblue];
+
+    "Hosted Hypervisor" -> "Host OS (e.g., Linux/Windows)" [label="Direct"];
+    "Host OS (e.g., Linux/Windows)" -> "Hypervisor Software (e.g., VirtualBox)";
+    "Hypervisor Software (e.g., VirtualBox)" -> "VMs (e.g., Ubuntu, Windows)";
+    "VMs (e.g., Ubuntu, Windows)" -> "Applications in VMs";
+
+    "Bare-Metal Hypervisor" -> "Hardware";
+    "Hardware" -> "Hypervisor Software (e.g., VMware ESXi)";
+    "Hypervisor Software (e.g., VMware ESXi)" -> "VMs (e.g., Ubuntu, Windows)";
+    "VMs (e.g., Ubuntu, Windows)" -> "Applications in VMs";
+}
+EOF
+
+# Generate the diagram in PNG format
+dot -Tpng hypervisor_comparison.dot -o hypervisor_comparison.png
+
+# Display a message to indicate success
+echo "Diagram generated: hypervisor_comparison.png"
